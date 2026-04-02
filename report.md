@@ -6,7 +6,7 @@ Sales representatives spend significant time drafting follow-up emails after pro
 
 ## Model Choice
 
-I used **Google Gemini 2.0 Flash** via the Gemini API. I chose Gemini because it is free to use, has good instruction-following capabilities, and the API is straightforward to set up. Flash specifically offers a good balance of speed and quality for a drafting task where the output will be human-reviewed before sending.
+I used **Google Gemini 2.0 Flash** via OpenRouter. I initially attempted the direct Gemini API but encountered regional free-tier restrictions, so I switched to OpenRouter which provides access to the same model. I chose Gemini 2.0 Flash because it is fast, inexpensive, and followed instructions well for a drafting task that still requires human review.
 
 ## Baseline vs. Final Design
 
@@ -28,6 +28,7 @@ The system is not reliable enough to send emails without human review. Specific 
 - The review-flags section occasionally over-flags normal cases, which could cause flag fatigue.
 - Tone calibration is imperfect — the model sometimes uses slightly pushy language on objection-heavy calls despite instructions to be gentle.
 - The system has no memory of prior interactions with a prospect, so it cannot reference relationship history beyond what is in the current notes.
+- The model sometimes adds a subject line even though the prompt does not explicitly request one. While useful, this is an example of the model going beyond the stated instructions — something to be aware of when evaluating output consistency.
 
 ## Deployment Recommendation
 

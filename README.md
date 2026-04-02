@@ -1,7 +1,7 @@
 # Gen AI HW2 — Sales Follow-Up Email Generator
 
 ## Overview
-A Python prototype that uses Google Gemini to generate personalized sales follow-up emails from CRM-style notes. The system takes brief sales call notes and produces professional, context-aware follow-up emails ready for human review.
+A Python prototype that uses Google Gemini 2.0 Flash (via OpenRouter) to generate personalized sales follow-up emails from CRM-style notes. The system takes brief sales call notes and produces professional, context-aware follow-up emails ready for human review.
 
 ## Business Workflow
 - **Workflow:** Drafting sales follow-up emails after prospect calls
@@ -12,9 +12,12 @@ A Python prototype that uses Google Gemini to generate personalized sales follow
 
 ## Setup
 
+No external dependencies required — uses only Python standard library.
+
 ```bash
-pip install google-genai
-export GEMINI_API_KEY="your-api-key-here"
+# 1. Get an API key from https://openrouter.ai/keys
+# 2. Set the environment variable:
+export OPENROUTER_API_KEY="your-openrouter-key-here"
 ```
 
 ## Usage
@@ -26,7 +29,7 @@ python app.py --interactive      # Enter your own notes interactively
 ```
 
 ## Files
-- `app.py` — Main script that calls Gemini API
+- `app.py` — Main script that calls Gemini 2.0 Flash via OpenRouter API
 - `prompts.md` — Prompt versions and iteration notes
 - `eval_set.json` — Evaluation test cases
 - `report.md` — Analysis report
