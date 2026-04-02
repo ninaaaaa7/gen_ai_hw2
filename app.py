@@ -1,13 +1,14 @@
 """
 Sales Follow-Up Email Generator
-Uses Google Gemini API to draft follow-up emails from CRM-style sales call notes.
+Uses Google Gemini API (via OpenRouter) to draft follow-up emails from CRM-style sales call notes.
 """
 
 import json
 import argparse
 import os
 import sys
-from google import genai
+import urllib.request
+import urllib.error
 
 # ---------------------------------------------------------------------------
 # Prompt (Version 3 — final, see prompts.md for iteration history)
@@ -28,24 +29,41 @@ Rules:
 
 After the email, add a section called "[REVIEW FLAGS]" listing any concerns: contradictions found, sensitive info omitted, sparse input, or anything else a human should verify before sending."""
 
-
-def generate_email(notes: str, model_name: str = "gemini-2.0-flash") -> str:
-    """Call Gemini to generate a follow-up email from sales notes."""
-    client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
-    response = client.models.generate_content(
-        model=model_name,
-        contents=f"{SYSTEM_PROMPT}\n\nNotes:\n{notes}",
-    )
-    return response.text
+DEFAULT_MODEL = "google/gemini-2.0-flash-001"
 
 
-def load_eval_set(path: str = "eval_set.json") -> list[dict]:
+def generate_email(notes, model_name=DEFAULT_MODEL):
+    """Call Gemini via OpenRouter API to generate a follow-up email."""
+    api_key = os.environ["OPENROUTER_API_KEY"]
+    url = "https://openrouter.ai/api/v1/chat/completions"
+    payload = json.dumps({
+        "model": model_name,
+        "messages": [
+            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "user", "content": f"Notes:\n{notes}"},
+        ],
+    }).encode("utf-8")
+    req = urllib.request.Request(url, data=payload, headers={
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {api_key}",
+    })
+    try:
+        with urllib.request.urlopen(req) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+        return data["choices"][0]["message"]["content"]
+    except urllib.error.HTTPError as e:
+        error_body = e.read().decode("utf-8")
+        print(f"API Error {e.code}: {error_body}")
+        sys.exit(1)
+
+
+def load_eval_set(path="eval_set.json"):
     """Load the evaluation set from JSON."""
     with open(path, "r") as f:
         return json.load(f)
 
 
-def run_eval(cases: list[dict], model_name: str) -> list[dict]:
+def run_eval(cases, model_name):
     """Run all eval cases and return results."""
     results = []
     for case in cases:
@@ -67,7 +85,7 @@ def run_eval(cases: list[dict], model_name: str) -> list[dict]:
     return results
 
 
-def run_interactive(model_name: str):
+def run_interactive(model_name):
     """Interactive mode: user enters notes, gets an email."""
     print("Sales Follow-Up Email Generator (interactive mode)")
     print("Enter your sales call notes (press Enter twice to submit):\n")
@@ -90,13 +108,15 @@ def main():
     parser = argparse.ArgumentParser(description="Sales Follow-Up Email Generator")
     parser.add_argument("--case", type=int, help="Run a single eval case by index (1-based)")
     parser.add_argument("--interactive", action="store_true", help="Interactive mode")
-    parser.add_argument("--model", default="gemini-2.0-flash", help="Gemini model name")
+    parser.add_argument("--model", default=DEFAULT_MODEL, help="Model name on OpenRouter")
     parser.add_argument("--output", default="output.json", help="Output file for results")
     args = parser.parse_args()
 
-    if "GEMINI_API_KEY" not in os.environ:
-        print("Error: Set the GEMINI_API_KEY environment variable.")
-        print("  export GEMINI_API_KEY='your-api-key-here'")
+    if "OPENROUTER_API_KEY" not in os.environ:
+        print("Error: Set the OPENROUTER_API_KEY environment variable.")
+        print("  1. Go to https://openrouter.ai/keys")
+        print("  2. Create a free account and generate an API key")
+        print("  3. export OPENROUTER_API_KEY='your-key-here'")
         sys.exit(1)
 
     if args.interactive:
