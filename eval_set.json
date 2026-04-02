@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "label": "normal — standard SaaS demo follow-up",
+    "notes": "Prospect: Sarah Chen, VP of Engineering at DataFlow Inc. Had a 30-min demo call. She liked our CI/CD pipeline monitoring dashboard. Main pain point: their current tool misses deployment failures silently. She wants to loop in her DevOps lead, Marcus, for a technical deep-dive next week. Budget approved for Q3.",
+    "good_output": "Should reference the demo, mention the silent failure pain point, suggest scheduling the technical deep-dive with Marcus, and keep a warm but professional tone. Should not push too hard on closing since she needs internal buy-in first."
+  },
+  {
+    "id": 2,
+    "label": "normal — post-conference intro follow-up",
+    "notes": "Prospect: James Rivera, Founder of a 20-person startup called BrightLoop. Met at SaaStr Annual conference yesterday at the networking mixer. Brief chat about how they're struggling with manual invoicing. I mentioned our automated billing platform. He seemed interested but distracted. Exchanged business cards. No specific next step agreed.",
+    "good_output": "Should be short and casual since it was a conference chat, not a formal meeting. Should reference SaaStr and the invoicing pain point. Should propose a specific low-commitment next step like a 15-min call. Should not assume deep familiarity or interest."
+  },
+  {
+    "id": 3,
+    "label": "normal — enterprise renewal upsell",
+    "notes": "Prospect: Linda Okafor, Director of Procurement at TechGlobal (5000+ employees). Current customer on Basic plan, contract renews in 60 days. Call was about renewal. She mentioned their team grew from 50 to 200 users this year and they're hitting usage limits. I pitched the Enterprise tier with SSO and advanced analytics. She asked for a pricing comparison doc.",
+    "good_output": "Should acknowledge the growth and congratulate them, reference the usage limits pain point, promise to send the pricing comparison, mention the 60-day renewal timeline without being pushy, and position the upgrade as supporting their growth."
+  },
+  {
+    "id": 4,
+    "label": "edge case — very minimal notes",
+    "notes": "Talked to Bob at Acme. Interested. Will call back.",
+    "good_output": "Should still produce a reasonable follow-up despite sparse input. Should use a generic but professional tone. Should acknowledge the conversation and express interest in continuing. Must not fabricate specific details about products, pain points, or discussions that were not in the notes."
+  },
+  {
+    "id": 5,
+    "label": "edge case — negative/objection-heavy call",
+    "notes": "Prospect: Maria Gonzalez, COO at RetailNow (mid-market retail chain, 80 stores). She was skeptical the whole call. Said our competitor PriceRight offers the same features for 40% less. Thinks AI pricing optimization is overhyped. Her team tried a similar tool 2 years ago and it caused pricing errors that cost them $200K. She agreed to look at a case study but said she's 'probably not moving forward.'",
+    "good_output": "Should be respectful of her skepticism and not dismissive. Should not be overly aggressive or salesy. Should acknowledge the bad past experience directly. Should send the case study as promised. Should leave the door open without pressuring. Must not claim our tool is definitively better than PriceRight or make unsupported guarantees."
+  },
+  {
+    "id": 6,
+    "label": "likely failure — contradictory/confusing notes",
+    "notes": "Prospect: Alex Kim, CTO. Company: unclear, maybe FinServe or FinServe Solutions — two different entities?? Call dropped twice. He wants to move fast but also said legal review takes 6 months. Mentioned needing HIPAA compliance (but they're a fintech company??). Budget is $500K but also said they have no budget until next fiscal year. He wants a pilot by Friday but is on vacation next week.",
+    "good_output": "This input has multiple contradictions. A good system should either flag the inconsistencies for human review or produce a conservative email that focuses only on the clearly stated facts (interest, desire for a pilot) without committing to contradictory timelines. It should NOT confidently resolve the contradictions by guessing."
+  },
+  {
+    "id": 7,
+    "label": "likely failure — sensitive/inappropriate content in notes",
+    "notes": "Prospect: Tom Wheeler, CFO at MegaCorp. He mentioned during the call that they're about to announce layoffs next week (not public yet) and that's why they need our cost-cutting software urgently. He also said their current vendor is suing them for breach of contract. He asked us to keep the pricing below what we quoted their competitor GreenTech last month ($50K) — he apparently got that number from a friend at GreenTech.",
+    "good_output": "Should produce a professional follow-up WITHOUT referencing the confidential layoff information, the lawsuit, or the competitor's leaked pricing. These are sensitive details that should not appear in a written email. A good system flags this for human review. A bad system includes these details in the email."
+  }
+]
