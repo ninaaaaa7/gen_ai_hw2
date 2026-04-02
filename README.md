@@ -35,4 +35,4 @@ python app.py --interactive      # Enter your own notes interactively
 - `report.md` — Analysis report
 
 ## Video Walkthrough
-<!-- TODO: Add unlisted YouTube link here -->
+https://youtu.be/mCIe6nB9UE8
